@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/database.dart';
 import 'package:flutter_application_1/util/dialog_log.dart';
@@ -20,6 +22,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       db.loadData();
     }
+    super.initState();
   }
 
   final _controller = TextEditingController();
@@ -30,7 +33,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void SaveNewTask() {
+  void saveNewTask() {
     setState(() {
       db.toDoList.add([_controller.text, false]);
       _controller.clear();
@@ -41,14 +44,15 @@ class _HomePageState extends State<HomePage> {
 
   void createNewTask() {
     showDialog(
-        context: context,
-        builder: (context) {
-          return DialogBox(
-            controller: _controller,
-            onSave: SaveNewTask,
-            onCancel: () => Navigator.of(context).pop(),
-          );
-        });
+      context: context,
+      builder: (context) {
+        return DialogBox(
+          controller: _controller,
+          onSave: saveNewTask,
+          onCancel: () => Navigator.of(context).pop(),
+        );
+      },
+    );
   }
 
   void deleteTask(int index) {
@@ -61,14 +65,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow[200],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('TO DO'),
+        title: const Text('TO DO LIST'),
         elevation: 0,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: createNewTask,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       body: ListView.builder(
         itemCount: db.toDoList.length,
